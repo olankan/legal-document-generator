@@ -6,9 +6,14 @@ import '../../components/constants/app_colors.dart';
 import '../../components/constants/widgets/custom_textfield.dart';
 import '../router/base_navigator.dart';
 
-
 class RefineDocument extends StatefulWidget {
-  const RefineDocument({Key? key, required this.rawInput, required this.documentType, required this.generatedText, required this.keyPoints}) : super(key: key);
+  const RefineDocument(
+      {Key? key,
+      required this.rawInput,
+      required this.documentType,
+      required this.generatedText,
+      required this.keyPoints})
+      : super(key: key);
 
   final String documentType;
   final String generatedText;
@@ -20,8 +25,7 @@ class RefineDocument extends StatefulWidget {
 }
 
 class _RefineDocumentState extends State<RefineDocument> {
-
-  List<Widget>messages = [];
+  List<Widget> messages = [];
   List<String> history = [];
   final controller = TextEditingController();
   String userInput = '';
@@ -42,8 +46,8 @@ class _RefineDocumentState extends State<RefineDocument> {
     history.add(widget.rawInput);
     messages = [
       ChatResponse(
-          content: 'I need help creating a/an ${widget.documentType}, using the following keypoints: ${widget.keyPoints}'
-      ),
+          content:
+              'I need help creating a/an ${widget.documentType}, using the following keypoints: ${widget.keyPoints}'),
       ChatResponse(
         content: widget.generatedText,
         isUser: false,
@@ -76,11 +80,18 @@ class _RefineDocumentState extends State<RefineDocument> {
         ),
         actions: [
           TextButton(
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> PreviewDocument(document: finalOutput)));
-              },
-              child: const Text('Preview Document')
-          )
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PreviewDocument(document: finalOutput),
+                ),
+              );
+            },
+            child: const Text('Preview Document', style: TextStyle(
+              color: Color.fromARGB(255, 116, 77, 123)
+            ,fontSize: 14),),
+          ),
         ],
       ),
       body: Padding(
@@ -95,39 +106,33 @@ class _RefineDocumentState extends State<RefineDocument> {
               ),
             ),
             CustomTextField(
-                controller: controller,
-                hintText: 'Message',
-                label: '',
-                icon: Icons.send,
-                iconAction: ()async{
-                  userInput = controller.text;
-                  controller.text = '';
-                  setState(() {
-                    messages.add(
-                      ChatResponse(
-                          content: userInput
-                      ),
-                    );
-                  });
-                  final response = await ApiImplementation.getCompletions(history, userInput,);
-                  finalOutput = response;
+              controller: controller,
+              hintText: 'Message',
+              label: '',
+              icon: Icons.send,
+              iconAction: () async {
+                userInput = controller.text;
+                controller.text = '';
+                setState(() {
                   messages.add(
-                    ChatResponse(
-                        isUser: false,
-                        content: response
-                    ),
+                    ChatResponse(content: userInput),
                   );
-                  history.add(userInput);
-                  setState(() {});
-
-                },
+                });
+                final response = await ApiImplementation.getCompletions(
+                  history,
+                  userInput,
+                );
+                finalOutput = response;
+                messages.add(
+                  ChatResponse(isUser: false, content: response),
+                );
+                history.add(userInput);
+                setState(() {});
+              },
             ),
-
           ],
         ),
       ),
     );
   }
 }
-
-

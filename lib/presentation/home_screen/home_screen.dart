@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: ()async{
+      onWillPop: () async {
         SystemNavigator.pop();
         return false;
       },
@@ -33,28 +33,39 @@ class _HomeScreenState extends State<HomeScreen> {
           appBar: AppBar(
             iconTheme: IconThemeData(color: AppColor.primaryColor),
             backgroundColor: AppColor.secondaryColor,
-            title: const Text(
-              'LegalDocGen',
-              style: TextStyle(
-                color: Color(0XFF4D426D),
-                fontWeight: FontWeight.w700,
-                fontFamily: 'Onest',
-                fontSize: 22,
-              ),
-            ),
+            title:   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'LegalDocGen',
+                        style: TextStyle(
+                          color: AppColor.primaryColor,
+                          fontFamily: 'Onest',
+                          fontWeight: FontWeight.w700,
+                          fontSize: 22,
+                        ),
+                      ),
+                      Icon(
+                        Icons.edit_document,
+                        color: AppColor.primaryColor,
+                        size: 22,
+                      ),
+                    ],
+                  ),
             leading: const Icon(Icons.menu),
             actions: [
               IconButton(
-                  onPressed: ()async{
-                    final Future<SharedPreferences> preferences = SharedPreferences.getInstance();
+                  onPressed: () async {
+                    final Future<SharedPreferences> preferences =
+                        SharedPreferences.getInstance();
                     final SharedPreferences prefs = await preferences;
                     await prefs.remove('loggedIn');
                     BaseNavigator.pushNamed(SignIn.routeName);
                   },
-                  icon: const Icon(Icons.logout)
-              )
+                  icon: const Icon(Icons.logout))
             ],
           ),
+          resizeToAvoidBottomInset: false,
           floatingActionButton: FloatingActionButton(
             backgroundColor: AppColor.secondaryColor,
             onPressed: () {
@@ -70,54 +81,55 @@ class _HomeScreenState extends State<HomeScreen> {
           body: Padding(
             padding: const EdgeInsets.all(10),
             child: Column(
-                    children: [
-                      const PremiumCard(),
-                      const SizedBox(
-                        height: 20,
+              children: [
+                const PremiumCard(),
+                const SizedBox(
+                  height: 20,
+                ),
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text(
+                        'Pick Document Type',
+                        style: CustomTextStyles.headerTextStyle,
                       ),
-                      Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Text(
-                              'Pick Document Type',
-                              style: CustomTextStyles.headerTextStyle,
-                            ),)),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      DocumentCard(
-                        color: AppColor.peach,
-                        title: 'Generate an Employment Contract',
-                        icon: AppIcons.legalDocIcon,
-                      ),
-                      DocumentCard(
-                        color: AppColor.darkBlue1,
-                        title: 'Generate a Legal Contract',
-                        icon: AppIcons.legalDocIcon,
-                      ),
-                      DocumentCard(
-                        color: AppColor.purple,
-                        title: 'Generate a Last Will & Testament',
-                        icon: AppIcons.legalDocIcon,
-                      ),
-                      DocumentCard(
-                        color: AppColor.brown,
-                        title: 'Generate a Court Document',
-                        icon: AppIcons.legalDocIcon,
-                      ),
-                      DocumentCard(
-                        color: AppColor.green,
-                        title: 'Generate a Corporate Document',
-                        icon: AppIcons.legalDocIcon,
-                      ),
-                      DocumentCard(
-                        color: AppColor.peach,
-                        title: 'Generate a Sworn Affidavit',
-                        icon: AppIcons.legalDocIcon,
-                      ),
-                    ],
-                  ),
+                    )),
+                const SizedBox(
+                  height: 10,
+                ),
+                DocumentCard(
+                  color: AppColor.peach,
+                  title: 'Generate an Employment Contract',
+                  icon: AppIcons.legalDocIcon,
+                ),
+                DocumentCard(
+                  color: AppColor.darkBlue1,
+                  title: 'Generate a Legal Contract',
+                  icon: AppIcons.legalDocIcon,
+                ),
+                DocumentCard(
+                  color: AppColor.purple,
+                  title: 'Generate a Last Will & Testament',
+                  icon: AppIcons.legalDocIcon,
+                ),
+                DocumentCard(
+                  color: AppColor.brown,
+                  title: 'Generate a Court Document',
+                  icon: AppIcons.legalDocIcon,
+                ),
+                DocumentCard(
+                  color: AppColor.green,
+                  title: 'Generate a Corporate Document',
+                  icon: AppIcons.legalDocIcon,
+                ),
+                DocumentCard(
+                  color: AppColor.peach,
+                  title: 'Generate a Sworn Affidavit',
+                  icon: AppIcons.legalDocIcon,
+                ),
+              ],
+            ),
           )),
     );
   }

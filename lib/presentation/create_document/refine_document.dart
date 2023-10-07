@@ -88,9 +88,9 @@ class _RefineDocumentState extends State<RefineDocument> {
                         documentHeader: '${widget.documentType}');
 
                     Pdf_Api.openFile(pdfFile);
-                    Future.delayed(const Duration(milliseconds: 1000), () {
+                    // Future.delayed(const Duration(milliseconds: 10), () {
                       Navigator.pop(context);
-                    });
+                    // });
                   }
                 : Platform.isAndroid
                     ? () {
